@@ -1,0 +1,3 @@
+ibrahimad:boulot:/bin/bash:/home/ibrahimad
+mateoj:test:/bin/bash:/home/mateoj
+hedib:it:/bin/sh:/home/hedib
