@@ -1,11 +1,30 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 # Fichier d'utilisateur
 USER_FILE="users.txt"
 INACTIVITY_DAYS=90
 BACKUP_DIR="/backup/users"
 
 # --- Fonction de gestion des utilisateurs (ajout/modification) ---
+=======
+USER_FILE="users.txt"
+INACTIVITY_DAYS=90
+BACKUP_DIR="/backup/users"
+GROUPS=("Marketing" "Développement" "RH")
+
+create_groups() {
+    for group in "${GROUPS[@]}"; do
+        if ! getent group "$group" > /dev/null; then
+            echo "Création du groupe $group..."
+            groupadd "$group"
+        else
+            echo "Le groupe $group existe déjà."
+        fi
+    done
+}
+
+>>>>>>> hedi
 generate_password() {
     openssl rand -base64 12
 }
@@ -15,6 +34,10 @@ manage_user() {
     group=$2
     shell=$3
     home_dir=$4
+<<<<<<< HEAD
+=======
+    functional_group=$5
+>>>>>>> hedi
 
     if ! getent group "$group" > /dev/null; then
         echo "Création du groupe $group..."
@@ -34,6 +57,38 @@ manage_user() {
 
         echo "Mot de passe pour $username: $password"
     fi
+<<<<<<< HEAD
+=======
+
+    
+    if [ -n "$functional_group" ]; then
+        echo "Ajout de $username au groupe fonctionnel $functional_group..."
+        usermod -aG "$functional_group" "$username"
+    fi
+}
+
+remove_user_from_group() {
+    username=$1
+    group=$2
+
+    if getent group "$group" > /dev/null; then
+        echo "Suppression de $username du groupe $group..."
+        gpasswd -d "$username" "$group"
+    else
+        echo "Le groupe $group n'existe pas."
+    fi
+}
+
+delete_empty_groups() {
+    for group in "${GROUPS[@]}"; do
+        if [ "$(getent group "$group" | awk -F: '{print $4}')" == "" ]; then
+            echo "Le groupe $group est vide, suppression..."
+            groupdel "$group"
+        else
+            echo "Le groupe $group n'est pas vide."
+        fi
+    done
+>>>>>>> hedi
 }
 
 if [ ! -f "$USER_FILE" ]; then
@@ -41,6 +96,7 @@ if [ ! -f "$USER_FILE" ]; then
     exit 1
 fi
 
+<<<<<<< HEAD
 while IFS=: read -r username group shell home_dir; do
     if [[ -n "$username" && -n "$group" && -n "$shell" && -n "$home_dir" ]]; then
         manage_user "$username" "$group" "$shell" "$home_dir"
@@ -52,6 +108,22 @@ done < "$USER_FILE"
 echo "Gestion des utilisateurs ajout/modification terminée."
 
 # --- Fonction de gestion des utilisateurs inactifs (suppression/verrouillage) ---
+=======
+create_groups
+
+while IFS=: read -r username group shell home_dir functional_group; do
+    if [[ -n "$username" && -n "$group" && -n "$shell" && -n "$home_dir" && -n "$functional_group" ]]; then
+        manage_user "$username" "$group" "$shell" "$home_dir" "$functional_group"
+    else
+        echo "Format de ligne incorrect : $username, $group, $shell, $home_dir, $functional_group"
+    fi
+done < "$USER_FILE"
+
+delete_empty_groups
+
+echo "Gestion des utilisateurs et des groupes terminée."
+
+>>>>>>> hedi
 find_inactive_users() {
     echo "Recherche des utilisateurs inactifs depuis plus de $INACTIVITY_DAYS jours..."
     lastlog -b $INACTIVITY_DAYS | awk 'NR>1 && $NF!="Never" {print $1}'
@@ -112,7 +184,10 @@ manage_inactive_users() {
     done
 }
 
+<<<<<<< HEAD
 # --- Lancer la gestion des utilisateurs inactifs ---
+=======
+>>>>>>> hedi
 manage_inactive_users
 
 echo "Gestion des utilisateurs inactifs terminée."

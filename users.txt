@@ -1,3 +1,7 @@
 ibrahimad:boulot:/bin/bash:/home/ibrahimad
 mateoj:test:/bin/bash:/home/mateoj
+<<<<<<< HEAD
 hedib:it:/bin/sh:/home/hedib
+=======
+hedib:it:/bin/sh:/home/hedib
+>>>>>>> hedi
