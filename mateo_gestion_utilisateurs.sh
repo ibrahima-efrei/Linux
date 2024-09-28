@@ -15,7 +15,7 @@ create_groups() {
         fi
     done
 }
-
+ 
 generate_password() {
     openssl rand -base64 12
 }
