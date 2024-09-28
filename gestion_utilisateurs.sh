@@ -1,5 +1,5 @@
 #!/bin/bash
-
+a
 # Fichier d'utilisateur
 USER_FILE="users.txt"
 INACTIVITY_DAYS=90
