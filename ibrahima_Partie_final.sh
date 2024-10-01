@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USER_FILE="users.txt"
+USER_FILE="mateo_users.txt"
 INACTIVITY_DAYS=90
 BACKUP_DIR="/backup/users"
 GROUPS=("Marketing" "Développement" "RH")
